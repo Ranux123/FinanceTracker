@@ -1,0 +1,227 @@
+Start
+Import json
+Import datetime from datetime 
+
+Create an empty dictionary named finance_data
+
+Define a function called load_finance_data():
+    Attempt the following:
+        Open the file 'financial-database.jay' for reading
+        Decode the content of the file using the jay-son module and store it in finance_data
+    In case of FileNotFoundError:
+        Display "File Not Found."
+        Assign an empty dictionary to finance_data
+    In case of any other errors:
+        Display "An issue occurred:"
+        Display the specific error
+        Assign an empty dictionary to finance_data
+    Display the content of finance_data
+
+Define a function named save_finance_data():
+    Open the file 'financial-database.jay' for writing
+    Encode the content of the finance_data dictionary using the jay-son module and write it to the file
+
+Define a function called read_bulk_finance_data(file_name):
+    Try the following:
+        Create an empty dictionary named bulk_finance_data
+        Open the file specified by file_name for reading
+        Read the content of the file
+        For each line in the file:
+            If the line contains exactly 3 elements:
+                Extract the amount, category, and date from the line
+                Validate and format the amount, category, and date
+                Create a dictionary with keys 'amount' and 'date' and values from the extracted data
+                If the category already exists in bulk_finance_data:
+                    Append the transaction dictionary to the list associated with the category key
+                Otherwise:
+                    Create a new list with the transaction dictionary as its first element and associate it with the category key
+            Otherwise:
+                Display "Ignoring an invalid transaction: " followed by the line
+
+        For each category and its transactions in bulk_finance_data:
+            If the category already exists in finance_data:
+                Append the transactions to the existing list in finance_data
+            Else:
+                Add the transactions to finance_data
+        Call save_finance_data()
+        Display "Bulk transactions have been successfully read!"
+
+    Except FileNotFoundError:
+        Display "The file was not found!"
+
+Define a function named add_transaction():
+    Validate and retrieve user inputs for amount, category, and date
+    Create a transaction dictionary with keys 'amount' and 'date' and user inputs as values
+    If the category already exists in finance_data:
+        Append the transaction dictionary to the list associated with the category key
+    Otherwise:
+        Create a new list with the transaction dictionary and associate it with the category key
+    Call save_finance_data()
+    Display "The transaction has been successfully saved!"
+
+Define a function named view_finance_data():
+    If finance_data is empty:
+        Display "No data is available to view!"
+    Else:
+        For each category and its transactions in finance_data:
+            Display the category
+            For each transaction in the transactions list:
+                Display the transaction
+
+Define a function named update_transaction():
+    Call view_finance_data()
+    Retrieve user input for the category to update
+    If the category exists in finance_data:
+        Display the category
+        For each index and transaction in the transactions list:
+            Display the index and the transaction
+        Retrieve user input for the transaction to update
+        If the transaction ID is valid:
+            Validate and retrieve user inputs for amount and date
+            Update the amount and date of the transaction
+            Call save_finance_data()
+            Display "The transaction has been successfully updated!"
+        Otherwise:
+            Display "Invalid transaction ID. Please enter a valid ID."
+    Otherwise:
+        Display "No transaction exists for the specified category."
+
+Define a function named delete_transaction():
+    Call view_finance_data()
+    Retrieve user input for the category to delete
+    If the category exists in finance_data:
+        Display the category
+        For each index and transaction in the transactions list:
+            Display the index and the transaction
+        Retrieve user input for the transaction to delete
+        If the transaction ID is valid:
+            Delete the transaction
+            If there are no more transactions in the category:
+                Delete the category
+            Call save_finance_data()
+            Display "The transaction has been successfully deleted!"
+    Otherwise:
+        Display "No transaction exists for the specified category."
+
+Define a function named display_summary():
+    If finance_data is empty:
+        Display "No data is available to display the summary."
+    Else:
+        Calculate the total number of transactions
+        Display the total number of transactions
+        Initialize total_income and total_expense to zero
+        For each transaction in finance_data:
+            If the transaction type is 'Income':
+                Add the amount to total_income
+            If the transaction type is 'Expense':
+                Add the amount to total_expense
+        Calculate the net balance by subtracting total_expense from total_income
+        Display the number of income transactions, the number of expense transactions, total income, total expense, and net balance
+
+Define a function named validate_amount():
+    While True:
+        Try the following:
+            Retrieve user input for the amount
+            If the amount is less than or equal to zero:
+                Display "Please enter a value greater than 0."
+            Else:
+                Return the amount
+        Except for ValueError:
+            Display "Please enter a valid numeric value for the amount."
+
+Define a function named read_bulk_amount(amount):
+    While True:
+        Try the following:
+            Convert the amount to a float
+            If the amount is less than or equal to zero:
+                Display "Please enter a value greater than 0."
+            Else:
+                Return the amount
+        Except for ValueError:
+            Display "Please enter a valid numeric value for the amount."
+
+Define a function named validate_category():
+    While True:
+        Retrieve user input for the category
+        If the category consists of digits:
+            Display "Category cannot be a numeric value. Please enter a description of the transaction."
+        Else:
+            Return the category
+
+Define a function named read_bulk_category(category):
+    While True:
+        Convert the category to lowercase and capitalize it
+        If the category consists of digits:
+            Display "Category cannot be a numeric value. Please enter a description of the transaction."
+        Else:
+            Return the category
+
+Define a function named validate_date():
+    While True:
+        Retrieve user input for the year, month, and day
+        Concatenate the year, month, and day to form a date string
+        Try to parse the date string using the datetime.strptime method
+        If successful, return the date string
+        Except for ValueError:
+            Display "Invalid date. Please enter the date in the requested format."
+
+Define a function named read_bulk_date(date):
+    Try the following:
+        Parse the date string using the datetime.strptime method
+        Return the date string
+    Except for ValueError:
+        Display "Invalid date. Please enter the date in the requested format."
+
+Define a function named view_bulk_transactions(transaction_bulk):
+    If transaction_bulk is empty:
+        Display "No transactions to view!"
+    Else:
+        Display "Bulk Transactions:"
+        For each category and its transactions in transaction_bulk:
+            Display the category
+            For each index and transaction in the transactions list:
+                Display the index and the transaction
+
+Define a function named main_menu():
+    Call load_finance_data()
+    While True:
+        Display "Personal Finance Tracker"
+        Display "1. Add Transaction"
+        Display "2. View Transactions"
+        Display "3. Update Transaction"
+        Display "4. Delete Transaction"
+        Display "5. Display Summary"
+        Display "6. Read from a file"
+        Display "7. Exit"
+        Retrieve user input for choice
+        If choice is 1:
+            Call add_transaction()
+        Else if choice is 2:
+            Call view_finance_data()
+        Else if choice is 3:
+            Call update_transaction()
+        Else if choice is 4:
+            Call delete_transaction()
+        Else if choice is 5:
+            Call display_summary()
+        Else if choice is 6:
+            Retrieve user input for the file name
+            Call read_bulk_finance_data(file_name)
+            If bulk data is available:
+                Call view_bulk_transactions(bulk_data)
+                For each category and its transactions in bulk_data:
+                    If the category exists in finance_data:
+                        Append the transactions to the existing list in finance_data
+                    Else:
+                        Add the transactions to finance_data
+                Call save_finance_data()
+        Else if choice is 7:
+            Display "Exiting the program!"
+            Break
+        If 0 < choice < 8:
+            Continue
+        Else:
+            Display "Invalid choice!"
+
+If the script is executed directly:
+    Call main_menu()
